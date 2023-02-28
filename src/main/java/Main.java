@@ -4,9 +4,20 @@ import java.io.FileFilter;
 public class Main
 {
     public static void main(String[] args) {
-        FileFilter fileFilter = (File file) -> file.getName().endsWith(".java");
-        File dir = new File("C:\\Users\\Alex\\Documents");
-        File[] javaFiles = dir.listFiles(fileFilter);
-        System.out.println("Welcome to Online IDE!! Happy Coding :)" + javaFiles);
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0 ; i < 3 ; i++) {
+                    System.out.println("Hello from Thread [" + Thread.currentThread().getName() + "]");
+                }
+            };
+        };
+        Thread t = new Thread(runnable);
+        t.start();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
