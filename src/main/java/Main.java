@@ -21,6 +21,9 @@ public class Main
         Function<List, Integer> size = List::size;
         Function<List<Integer>, Stream<Integer>> flatmapper = Collection::stream;
 
-        list.stream().flatMap(flatmapper).forEach(System.out::println);
+        list.stream()
+                //map(size)
+                .flatMap(flatmapper)
+                .forEach(System.out::println);
     }
 }
