@@ -3,6 +3,7 @@ import java.util.*;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Main
@@ -16,23 +17,26 @@ public class Main
 
         System.out.println(list);
 
-        Function<List, Integer> size = List::size;
         Function<List<Integer>, Stream<Integer>> flatmapper = Collection::stream;
 
-        BinaryOperator<Integer> reducer = Integer::sum;
-        //(Integer number1, Integer number2) -> number1 + number2;
-
-        Optional<Integer> sum = list.stream()
-                //map(size)
+        String sentence = list.stream()
                 .flatMap(flatmapper)
-                //.filter()
-                //.min().max()
-                //.allMatch()
-                .reduce(reducer); // terminal and not intermediary
-                //.reduce(0, reducer)
+                .filter(number -> number > 3)
+                .map(Object::toString)//number -> number.toString()
+                .collect(Collectors.joining(", ")); //toList()
 
-        final int i = sum.orElse(0); // sum.isPresent() ? sum.get() : 0;
+        System.out.println(sentence);
 
-        System.out.println(i);
+        Person user1 = new Person("Boris",20, 0);
+        Person user2 = new Person("Loic",216, 1);
+        Person user3 = new Person("Samantha",16, 2);
+
+        List<Person> users =  Arrays.asList(user1, user2, user3);
+
+        Map<Integer, Long> filteredUsers = users.stream()
+                .filter(user -> user.age < 100)
+                .collect(Collectors.groupingBy(Person::getAge, Collectors.counting()));
+
+        System.out.println(filteredUsers);
     }
 }
