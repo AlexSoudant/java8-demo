@@ -1,39 +1,24 @@
-import java.io.File;
-import java.io.FileFilter;
-import java.util.*;
-import java.util.function.Consumer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Main
 {
     public static void main(String[] args) {
-        Predicate<String> p1 = s -> s.length() < 20;
-        Predicate<String> p2 = s -> s.length() > 10;
+        Stream<String> stream = Stream.of("one", "two", "three");
 
-        Predicate<String> p3 = p1.and(p2); // tester .or
+        Predicate<String> p1 = Predicate.isEqual("two");
+        Predicate<String> p2 = Predicate.isEqual("three");
 
-        List<String> noms = new ArrayList<>(Arrays.asList("Georges", "Bernard", "Henry", "Bartholomé Naomie"));
-        // Java8 : Stream.of("Georges", "Bernard", "Henry", "Bartholomé").collect(Collectors.toList());
+        List<String> list = new ArrayList<>();
 
-        List<String> filteredNamesByLength = noms.stream().filter(p3).collect(Collectors.toList());
-        Consumer<String> printCons = System.out::println; // reference
-        filteredNamesByLength.forEach(printCons);
+        stream
+                .peek(System.out::println)
+                .filter(p1.or(p2))
+                .forEach(list::add); //peek
 
-        System.out.println("-------------------- ");
-
-        String target = "Georges";
-        Predicate<String> id = Predicate.isEqual(target);
-        List<String> filteredNamesById = noms.stream().filter(id).collect(Collectors.toList());
-        filteredNamesById.forEach(printCons);
-
-        System.out.println("-------------------- ");
-
-        List<String> result = new ArrayList<>();
-        Consumer<String> addToResult = result::add;
-
-        noms.forEach(printCons.andThen(addToResult));
-        System.out.println("size of result = " + result.size());
+        System.out.println("Done!");
+        System.out.println("size = " + list.size());
     }
 }
