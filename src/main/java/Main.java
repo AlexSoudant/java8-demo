@@ -1,8 +1,6 @@
 import java.io.FileFilter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -21,9 +19,20 @@ public class Main
         Function<List, Integer> size = List::size;
         Function<List<Integer>, Stream<Integer>> flatmapper = Collection::stream;
 
-        list.stream()
+        BinaryOperator<Integer> reducer = Integer::sum;
+        //(Integer number1, Integer number2) -> number1 + number2;
+
+        Optional<Integer> sum = list.stream()
                 //map(size)
                 .flatMap(flatmapper)
-                .forEach(System.out::println);
+                //.filter()
+                //.min().max()
+                //.allMatch()
+                .reduce(reducer); // terminal and not intermediary
+                //.reduce(0, reducer)
+
+        final int i = sum.orElse(0); // sum.isPresent() ? sum.get() : 0;
+
+        System.out.println(i);
     }
 }
