@@ -12,13 +12,13 @@ public class Main
         Predicate<String> p1 = s -> s.length() < 20;
         Predicate<String> p2 = s -> s.length() > 10;
 
-        Predicate<String> p3 = p1.and(p2);
+        Predicate<String> p3 = p1.and(p2); // tester .or
 
         List<String> noms = new ArrayList<>(Arrays.asList("Georges", "Bernard", "Henry", "Bartholomé Naomie"));
         // Java8 : Stream.of("Georges", "Bernard", "Henry", "Bartholomé").collect(Collectors.toList());
 
         List<String> filteredNamesByLength = noms.stream().filter(p3).collect(Collectors.toList());
-        Consumer<String> printCons = System.out::println;
+        Consumer<String> printCons = System.out::println; // reference
         filteredNamesByLength.forEach(printCons);
 
         System.out.println("-------------------- ");
